@@ -6,7 +6,7 @@ const checkConfig = (server: string): Config | {} => {
   switch (server) {
     case "production":
       config = {
-        baseUrl: "https://supergearyt.vercel.app/",
+        baseUrl: "",
       };
       break;
     case "local":
@@ -20,5 +20,6 @@ const checkConfig = (server: string): Config | {} => {
   return config;
 };
 
-export const selectServer = "production";
+// export const selectServer = "production";
+export const selectServer = "local";
 export const config = checkConfig(selectServer) as Config;
