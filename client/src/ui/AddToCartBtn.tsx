@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { ProductProps } from "../type";
-// import { store } from "../lib/store";
+import { store } from "../lib/store";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
@@ -20,29 +20,29 @@ const AddToCartBtn = ({
   const [existingProduct, setExistingProduct] = useState<ProductProps | null>(
     null
   );
-  // const { addToCart, cartProduct, decreaseQuantity } = store();
+  const { addToCart, cartProduct, decreaseQuantity } = store();
 
-  // useEffect(() => {
-  //   const availableItem = cartProduct.find(
-  //     (item: any) => item?._id === product?._id
-  //   );
+  useEffect(() => {
+    const availableItem = cartProduct.find(
+      (item) => item?._id === product?._id
+    );
 
-  //   setExistingProduct(availableItem || null);
-  // }, [product, cartProduct]);
+    setExistingProduct(availableItem || null);
+  }, [product, cartProduct]);
 
-  // const handleAddToCart = () => {
-  //   if (product) {
-  //     addToCart(product);
-  //     toast.success(`${product?.name.substring(0, 10)} added successfully!`);
-  //   } else {
-  //     toast.error("Product is undefined!");
-  //   }
-  // };
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart(product);
+      toast.success(`${product?.name.substring(0, 10)} added successfully!`);
+    } else {
+      toast.error("Product is undefined!");
+    }
+  };
 
   const handleDeleteProduct = () => {
     if (existingProduct) {
       if (existingProduct?.quantity > 1) {
-        // decreaseQuantity(existingProduct?._id);
+        decreaseQuantity(existingProduct?._id);
         toast.success(
           `${product?.name.substring(0, 10)} decreased successfully`
         );
@@ -100,17 +100,14 @@ const AddToCartBtn = ({
             {existingProduct?.quantity}
           </p>
           <button
-            // onClick={handleAddToCart}
+            onClick={handleAddToCart}
             className="bg-[#f7f7f7] text-black p-2 border-[1px] border-gray-200 hover:border-skyText rounded-full text-sm hover:bg-white duration-200 cursor-pointer"
           >
             <FaPlus />
           </button>
         </div>
       ) : (
-        <button
-          // onClick={handleAddToCart}
-          className={newClassName}
-        >
+        <button onClick={handleAddToCart} className={newClassName}>
           {title ? title : "Add to cart"}
         </button>
       )}

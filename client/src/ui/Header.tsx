@@ -16,6 +16,7 @@ import { config } from "../config";
 import { getData } from "../lib";
 import { CategoryProps, ProductProps } from "../type";
 import ProductCard from "./ProductCard";
+import { store } from "../lib/store";
 
 const bottomNavigation = [
   { title: "Home", link: "/" },
@@ -31,7 +32,7 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-
+  const { cartProduct, favoriteProduct, currentUser } = store();
   useEffect(() => {
     const fetchData = async () => {
       const endpoint = `${config?.baseUrl}/products`;
@@ -118,18 +119,26 @@ const Header = () => {
         {/* Menubar */}
         <div className="flex items-center gap-x-6 text-2xl">
           <Link to={"/profile"}>
-            <FiUser className="hover:text-skyText duration-200 cursor-pointer" />
+            {currentUser ? (
+              <img
+                src={currentUser?.avatar}
+                alt="profileImg"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            ) : (
+              <FiUser className="hover:text-skyText duration-200 cursor-pointer" />
+            )}
           </Link>
           <Link to={"/favorite"} className="relative block">
             <FiStar className="hover:text-skyText duration-200 cursor-pointer" />
             <span className="inline-flex items-center justify-center bg-redText text-whiteText absolute -top-1 -right-2 text-[9px] rounded-full w-4 h-4">
-              fav
+              {favoriteProduct?.length > 0 ? favoriteProduct?.length : "0"}
             </span>
           </Link>
           <Link to={"/cart"} className="relative block">
             <FiShoppingBag className="hover:text-skyText duration-200 cursor-pointer" />
             <span className="inline-flex items-center justify-center bg-redText text-whiteText absolute -top-1 -right-2 text-[9px] rounded-full w-4 h-4">
-              cart
+              {cartProduct?.length > 0 ? cartProduct?.length : "0"}
             </span>
           </Link>
         </div>
