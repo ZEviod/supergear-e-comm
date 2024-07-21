@@ -9,7 +9,7 @@ import FormattedPrice from "../ui/FormattedPrice";
 
 const Cart = () => {
   const [totalAmt, setTotalAmt] = useState({ regular: 0, discounted: 0 });
-  const { cartProduct, currentUser } = store();
+  const { cartProduct } = store();
 
   const shippingAmt = 25;
   const taxAmt = 15;
