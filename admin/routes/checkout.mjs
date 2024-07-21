@@ -42,7 +42,8 @@ router.post("/checkout", async (req, res) => {
       id: session.id,
     });
   } catch (error) {
-    res.status(500).json({ error: error });
+    console.error("Error creating checkout session:", error);
+    res.status(500).json({ error: error.message });
   }
 });
 export default router;
